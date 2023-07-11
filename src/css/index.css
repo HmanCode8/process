@@ -1,0 +1,43 @@
+.neumorphic-button {
+  border: none;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2), -3px -3px 5px rgba(255, 255, 255, 0.7);
+  padding: 10px 20px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.neumorphic-button:hover {
+  cursor: pointer;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2), -1px -1px 3px rgba(255, 255, 255, 0.7);
+}
+
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 4fr ; /* 定义三列 */
+  grid-template-rows: auto; /* 自动调整行高 */
+  grid-gap: 10px; /* 设置项之间的间隔 */
+}
+
+.grid-item {
+  background-color: #f00;
+  padding: 10px;
+}
+
+.grid-item:nth-child(even) {
+  background-color: #f0f0f0;
+}
+
+.parent {
+  background-color: #f00;
+  overflow: hidden;
+  /* position: absolute; */
+}
+.child{
+  float: left;
+  width: 100px;
+  height: 100px;
+  background-color: aqua;
+}
