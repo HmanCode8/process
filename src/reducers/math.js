@@ -6,7 +6,6 @@ const initialState = {
 
 // 定义 Reducer 函数
 const calculatorReducer = (state = initialState, action) => {
-  console.log('message',state)
   switch (action.type) {
     case 'INCREMENT':
       return {

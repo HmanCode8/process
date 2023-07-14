@@ -9,7 +9,6 @@ import { Button, Space,Input } from 'antd'
  * @returns
  */
 const Login = (props) => {
-  console.log('props',props)
   const { result, message, increment, decrement, multiply, divide,changeMessage } = props
   return (
     <Space size={'large'}>
@@ -34,7 +33,6 @@ const Login = (props) => {
 }
 
 const mapStateToProps = (state) => {
-  console.log('state', state)
   const { math,info } = state
   return {
     result: math.count,

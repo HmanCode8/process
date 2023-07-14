@@ -6,8 +6,9 @@ const Tree = () => {
   const createTree = () => {
     const canvas = document.querySelector('canvas')
     const ctx = canvas.getContext('2d')
-    canvas.width = window.innerWidth - 20 * devicePixelRatio
-    canvas.height = window.innerHeight - 20 * devicePixelRatio
+    const mainEl = document.querySelector('.ant-layout-sider')
+    canvas.width =window.innerWidth - 400 * devicePixelRatio
+    canvas.height = 750 - 20 * devicePixelRatio
     /**
      * 平移
      */

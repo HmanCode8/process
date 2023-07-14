@@ -1,0 +1,7 @@
+.carousel{}
+.carousel-list{
+  position: relative;
+}
+.carousel-item{
+  position: absolute;
+}
