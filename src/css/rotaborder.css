@@ -1,0 +1,53 @@
+:root {
+  --btn-padding: 4px; /* 定义一个名为--btn-padding的CSS变量并赋值为4px */
+  --btn-color: #00f7ff;
+}
+
+.rota-border {
+  width: 100%;
+  min-height: 400px;
+  background-color: #010101;
+  display: flex;
+  flex-wrap: wrap;
+}
+.rota-btn {
+  display: block;
+  height: 60px;
+  width: 120px;
+  border: none;
+  border-radius: 5px;
+  z-index: 0;
+  position: relative;
+  overflow: hidden;
+  background-color: #010101;
+  color: var(--btn-color);
+}
+.rota-btn::before {
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background-color: var(--btn-color);
+  z-index: -2;
+  left: 50%;
+  top: 50%;
+  transform-origin: 0 0;
+  animation: rotition 3s infinite linear;
+}
+
+.rota-btn:after {
+  content: '';
+  position: absolute;
+  width: calc(100% - var(--btn-padding) * 2); /* 使用变量来计算宽度 */
+  height: calc(100% - var(--btn-padding) * 2); /* 使用变量来计算高度 */
+  top: var(--btn-padding);
+  left: var(--btn-padding);
+  z-index: -1;
+  background-color: #010101;
+}
+
+@keyframes rotition {
+  to {
+    transform: rotate(1turn);
+  }
+}

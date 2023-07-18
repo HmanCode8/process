@@ -1,7 +1,16 @@
-.carousel{}
-.carousel-list{
-  position: relative;
+.carousel {
 }
-.carousel-item{
-  position: absolute;
+.carousel-list {
+  position: relative;
+  width: 600px;
+  height: 400px;
+  overflow: hidden;
+  margin: 0 auto;
+  padding: 30px ;
+}
+.carousel-item {
+  width: 100%; /* 轮播图项的宽度，填满容器 */
+  height: 100%; /* 轮播图项的高度，填满容器 */
+  position: absolute; /* 轮播图项绝对定位，重叠在一起 */
+  margin: 0 auto;
 }

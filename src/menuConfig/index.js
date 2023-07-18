@@ -2,6 +2,7 @@ import Login from '../pages/Login'
 import Tree from '../pages/Tree'
 import Pig from '../pages/Pig'
 import Carousel from '../pages/Carousel'
+import RotatingBorder from '../pages/RotatingBorder'
 
 import _ from 'lodash'
 import '../css/index.css'
@@ -37,19 +38,10 @@ const menuList = [
     ],
   },
   {
-    label: '一棵树',
-    component: <Tree />,
+    label: '旋转边框',
+    component: <RotatingBorder />,
     key: '2',
     icon: <VideoCameraOutlined />,
-    children: [
-      {
-        key: '2-1-1',
-        label: '2',
-        component: <div>
-          你好！我是一棵树的孩子
-        </div>,
-      },
-    ]
   },
   {
     label: '一头猪',
