@@ -12,7 +12,7 @@ import { UserOutlined, VideoCameraOutlined, AndroidOutlined } from '@ant-design/
 const menuList = [
   {
     label: '登录',
-    component: <Login />,
+    component: <Carousel />,
     key: '1',
     icon: <AndroidOutlined />,
     children: [
