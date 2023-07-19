@@ -25,6 +25,27 @@ const Carousel = () => {
     setCrrentIndex(crrentIndex - (key === 'next' ? 1 : -1))
   }
 
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      // 按下左箭头键
+      if (event.key === 'ArrowLeft') {
+        changeTo('prev');
+      }
+      // 按下右箭头键
+      else if (event.key === 'ArrowRight') {
+        changeTo('next');
+      }
+    };
+
+    // 在组件挂载时添加键盘事件监听
+    document.addEventListener('keydown', handleKeyPress);
+
+    // 在组件卸载时移除事件监听
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress);
+    };
+  }); // 监听 crrentIndex 变化
+
   const styleFn = (index) => {
     const sign = Math.sign(index - crrentIndex)
 
