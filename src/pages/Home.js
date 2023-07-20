@@ -15,7 +15,7 @@ const items = _.map(menuList, (m, index) => ({
 
 const { Header, Content, Footer, Sider } = Layout
 
-const Home = () => {
+const Home = () => {  
   const [menuKey, setMenuKey] = useState('1')
   const [keyPath, setKeyPath] = useState([])
   const handleMenuChange = (value) => {
@@ -30,17 +30,17 @@ const Home = () => {
       _.forEach(data, (d) => {
         result = [...result, d]
         if (!_.isEmpty(d.children)) {
-          result = [...result,...flattenMenu(d.children)]
+          result = [...result, ...flattenMenu(d.children)]
         }
       })
       return result
     }
     const m = _.find(flattenMenu(menuList), (n) => n.key === menuKey)
-
+    console.log('component', m)
     return _.get(m, 'component')
   }
 
-  return (
+  return (  
     <Layout hasSider>
       <Sider
         style={{
@@ -57,10 +57,11 @@ const Home = () => {
       <Layout style={{ marginLeft: 200 }}>
         <Header style={{ padding: 0, background: '#eeee', fontSize: '30px', fontWeight: '600' }}>我是标题</Header>
         {renderComponent()}
-        <Footer style={{ textAlign: 'center' }}>Ant Design ©2023 Created by Ant UED</Footer>
+        <Footer style={{ textAlign: 'center' }}>Ant Design ©2053  </Footer>
       </Layout>
     </Layout>
   )
+
 }
 
 export default Home
