@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react'
-import { Input } from 'antd'
 import '../css/tree.css'
 
 const Tree = () => {
   const createTree = () => {
     const canvas = document.querySelector('canvas')
     const ctx = canvas.getContext('2d')
-    const mainEl = document.querySelector('.ant-layout-sider')
     canvas.width =window.innerWidth - 400 * devicePixelRatio
     canvas.height = 750 - 20 * devicePixelRatio
     /**

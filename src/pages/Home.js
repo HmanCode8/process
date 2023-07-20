@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 import _ from 'lodash'
 import '../css/index.css'
+import logon from '../images/logo.png'
 
 import { Layout, Menu } from 'antd'
 import menuList from '../menuConfig'
@@ -13,15 +14,13 @@ const items = _.map(menuList, (m, index) => ({
   children: m.children,
 }))
 
-const { Header, Content, Footer, Sider } = Layout
+const { Header, Footer, Sider } = Layout
 
 const Home = () => {
   const [menuKey, setMenuKey] = useState('1')
-  const [keyPath, setKeyPath] = useState([])
   const handleMenuChange = (value) => {
-    const { key, keyPath } = value
+    const { key } = value
     setMenuKey(key)
-    setKeyPath(keyPath)
   }
 
   const renderComponent = () => {
@@ -30,22 +29,23 @@ const Home = () => {
       _.forEach(data, (d) => {
         result = [...result, d]
         if (!_.isEmpty(d.children)) {
-          result = [...result,...flattenMenu(d.children)]
+          result = [...result, ...flattenMenu(d.children)]
         }
       })
       return result
     }
     const m = _.find(flattenMenu(menuList), (n) => n.key === menuKey)
 
-    return _.get(m, 'component')
+    return m
   }
-
+  const title = _.get(renderComponent(), 'label')
+  const content = _.get(renderComponent(), 'component')
   return (
     <Layout hasSider>
       <Sider
         style={{
           overflow: 'auto',
-          height: '100vh',
+          height: '100vh', 
           position: 'fixed',
           left: 0,
           top: 0,
@@ -55,8 +55,8 @@ const Home = () => {
         <Menu theme='dark' mode='inline' selectedKeys={menuKey} items={items} onClick={handleMenuChange} />
       </Sider>
       <Layout style={{ marginLeft: 200 }}>
-        <Header style={{ padding: 0, background: '#eeee', fontSize: '30px', fontWeight: '600' }}>我是标题</Header>
-        {renderComponent()}
+        <Header style={{ padding: 0, background: '#eeee', fontSize: '30px', fontWeight: '600' }}> <img src={logon} alt="logo" /> {title}</Header>
+        {content}
         <Footer style={{ textAlign: 'center' }}>Ant Design ©2023 Created by Ant UED</Footer>
       </Layout>
     </Layout>

@@ -4,7 +4,6 @@ import Pig from '../pages/Pig'
 import Carousel from '../pages/Carousel'
 import RotatingBorder from '../pages/RotatingBorder'
 
-import _ from 'lodash'
 import '../css/index.css'
 
 import { UserOutlined, VideoCameraOutlined, AndroidOutlined } from '@ant-design/icons'
@@ -12,7 +11,7 @@ import { UserOutlined, VideoCameraOutlined, AndroidOutlined } from '@ant-design/
 const menuList = [
   {
     label: '登录',
-    component: <Carousel />,
+    component: <Login />,
     key: '1',
     icon: <AndroidOutlined />,
     children: [
@@ -38,15 +37,27 @@ const menuList = [
     ],
   },
   {
-    label: '旋转边框',
-    component: <RotatingBorder />,
+    label: '轮播图',
+    component: <Carousel />,
     key: '2',
     icon: <VideoCameraOutlined />,
   },
   {
-    label: '一头猪',
-    component: <Pig />,
+    label: '旋转边框',
+    component: <RotatingBorder />,
     key: '3',
+    icon: <VideoCameraOutlined />,
+  },
+  {
+    label: 'Tree',
+    component: <Tree />,
+    key: '4',
+    icon: <UserOutlined />,
+  },
+  {
+    label: '地球',
+    component: <Pig />,
+    key: '5',
     icon: <UserOutlined />,
   },
 ]
