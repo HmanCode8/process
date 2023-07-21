@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 
 import _ from 'lodash'
 import '../css/index.css'
-import logon from '../images/logo.png'
+import fire from '../images/fire.mp4'
 
 import { Layout, Menu } from 'antd'
 import menuList from '../menuConfig'
+import logo from '../images/logo.png'
 
 const items = _.map(menuList, (m, index) => ({
   key: String(index + 1),
@@ -45,7 +46,7 @@ const Home = () => {
       <Sider
         style={{
           overflow: 'auto',
-          height: '100vh', 
+          height: '100vh',
           position: 'fixed',
           left: 0,
           top: 0,
@@ -55,7 +56,10 @@ const Home = () => {
         <Menu theme='dark' mode='inline' selectedKeys={menuKey} items={items} onClick={handleMenuChange} />
       </Sider>
       <Layout style={{ marginLeft: 200 }}>
-        <Header style={{ padding: 0, background: '#eeee', fontSize: '30px', fontWeight: '600' }}> <img src={logon} alt="logo" /> {title}</Header>
+        <Header style={{ padding: 0, background: '#156b39', fontSize: '30px', fontWeight: '600' }}>
+       
+          <span className='logo-title'> {title}</span>
+        </Header>
         {content}
         <Footer style={{ textAlign: 'center' }}>Ant Design ©2023 Created by Ant UED</Footer>
       </Layout>

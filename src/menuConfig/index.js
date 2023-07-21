@@ -1,8 +1,10 @@
-import Login from '../pages/Login'
-import Tree from '../pages/Tree'
-import Pig from '../pages/Pig'
-import Carousel from '../pages/Carousel'
-import RotatingBorder from '../pages/RotatingBorder'
+import Login from '../pages/Login/Login'
+import Tree from '../pages/Tree/Tree'
+import Pig from '../pages/Pig/Pig'
+import Carousel from '../pages/Carousel/Carousel'
+import RotatingBorder from '../pages/RotatingBorder/RotatingBorder'
+import FieldIllustration from '../pages/FieldIllustration/FieldIllustration'
+import ThreeScene from '../pages/ThreeScene/ThreeScene'
 
 import '../css/index.css'
 
@@ -58,6 +60,18 @@ const menuList = [
     label: '地球',
     component: <Pig />,
     key: '5',
+    icon: <UserOutlined />,
+  },
+  {
+    label: '野外插画',
+    component: <FieldIllustration />,
+    key: '6',
+    icon: <UserOutlined />,
+  },
+  {
+    label: 'ThreeScene',
+    component: <ThreeScene />,
+    key: '7',
     icon: <UserOutlined />,
   },
 ]
