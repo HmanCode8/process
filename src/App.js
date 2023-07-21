@@ -1,9 +1,9 @@
 import Home from './pages/Home'
-import Login from './pages/Login'
-import Tree from './pages/Tree'
-import Pig from './pages/Pig'
+import Login from './pages/Login/Login'
+import Tree from './pages/Tree/Tree'
+import Pig from './pages/Earth/Earth'
 import './index.css'
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 function App() {
   return (

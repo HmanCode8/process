@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 
 import _ from 'lodash'
 import '../css/index.css'
+import fire from '../images/fire.mp4'
 
 import { Layout, Menu } from 'antd'
 import menuList from '../menuConfig'
+import logo from '../images/logo.png'
 
 const items = _.map(menuList, (m, index) => ({
   key: String(index + 1),
@@ -13,15 +15,14 @@ const items = _.map(menuList, (m, index) => ({
   children: m.children,
 }))
 
-const { Header, Content, Footer, Sider } = Layout
+const { Header, Footer, Sider } = Layout
 
 const Home = () => {  
   const [menuKey, setMenuKey] = useState('1')
-  const [keyPath, setKeyPath] = useState([])
+  const [colorDeg, setColorDeg] = useState(45)
   const handleMenuChange = (value) => {
-    const { key, keyPath } = value
+    const { key } = value
     setMenuKey(key)
-    setKeyPath(keyPath)
   }
 
   const renderComponent = () => {
@@ -36,9 +37,21 @@ const Home = () => {
       return result
     }
     const m = _.find(flattenMenu(menuList), (n) => n.key === menuKey)
-    console.log('component', m)
-    return _.get(m, 'component')
+
+    return m
   }
+  const title = _.get(renderComponent(), 'label')
+  const content = _.get(renderComponent(), 'component')
+
+
+  useEffect(()=>{
+    const timeId = setInterval(()=>{
+      setColorDeg(colorDeg + 45)
+    },500)
+    return ()=>{
+      clearInterval(timeId)
+    }
+  })
 
   return (  
     <Layout hasSider>
@@ -55,9 +68,12 @@ const Home = () => {
         <Menu theme='dark' mode='inline' selectedKeys={menuKey} items={items} onClick={handleMenuChange} />
       </Sider>
       <Layout style={{ marginLeft: 200 }}>
-        <Header style={{ padding: 0, background: '#eeee', fontSize: '30px', fontWeight: '600' }}>我是标题</Header>
-        {renderComponent()}
-        <Footer style={{ textAlign: 'center' }}>Ant Design ©2053  </Footer>
+        <Header style={{ padding: 0, background: `linear-gradient(${45}deg,#5470c6,#0f0,20%,#eee,#e3e3,50%,#cde5f9,#00967d)`, fontSize: '30px', fontWeight: '600' }}>
+       
+          <span className='logo-title'> {title}</span>
+        </Header>
+        {content}
+        <Footer style={{ textAlign: 'center' }}>Ant Design ©2023 Created by Ant UED</Footer>
       </Layout>
     </Layout>
   )
