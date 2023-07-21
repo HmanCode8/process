@@ -1,6 +1,6 @@
 import Login from '../pages/Login/Login'
 import Tree from '../pages/Tree/Tree'
-import Pig from '../pages/Pig/Pig'
+import Pig from '../pages/Earth/Earth'
 import Carousel from '../pages/Carousel/Carousel'
 import RotatingBorder from '../pages/RotatingBorder/RotatingBorder'
 import FieldIllustration from '../pages/FieldIllustration/FieldIllustration'
