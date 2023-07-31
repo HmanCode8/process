@@ -5,7 +5,12 @@ module.exports = function (app) {
     proxy('/examples', { 
       target: 'https://echarts.apache.org/examples',
       changeOrigin: true,
-      pathRewrite: { '^/api': '' }
     })
   )
+  app.use(
+    proxy('/api/qq', { 
+      target: 'https://api.vvhan.com',
+      changeOrigin: true,
+    })
+  );
 }
