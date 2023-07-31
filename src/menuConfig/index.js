@@ -5,6 +5,10 @@ import Carousel from '../pages/Carousel/Carousel'
 import RotatingBorder from '../pages/RotatingBorder/RotatingBorder'
 import FieldIllustration from '../pages/FieldIllustration/FieldIllustration'
 import ThreeScene from '../pages/ThreeScene/ThreeScene'
+import QqApi from '../pages/myApi/qqApi'
+import MusicApi from '../pages/myApi/musicApi'
+
+
 
 import '../css/index.css'
 
@@ -13,28 +17,28 @@ import { UserOutlined, VideoCameraOutlined, AndroidOutlined } from '@ant-design/
 const menuList = [
   {
     label: '登录',
-    component: <Login />,
+    component: <QqApi />,
     key: '1',
     icon: <AndroidOutlined />,
     children: [
       {
         key: '1-1',
-        label: '儿子',
-        component: <Tree />,
-        children: [
-          {
-            key: '1-1-1',
-            label: '孙子1',
-            component: <Carousel />,
-          },
-          {
-            key: '1-1-2',
-            label: '孙子2',
-            component: <div>
-              我是登录的孙子
-            </div>,
-          },
-        ]
+        label: 'MusicApi',
+        component: <MusicApi />,
+        // children: [
+        //   {
+        //     key: '1-1-1',
+        //     label: '孙子1',
+        //     component: <Carousel />,
+        //   },
+        //   {
+        //     key: '1-1-2',
+        //     label: '孙子2',
+        //     component: <div>
+        //       我是登录的孙子
+        //     </div>,
+        //   },
+        // ]
       },
     ],
   },
