@@ -1,4 +1,4 @@
-.qq-box{
+.qq-box {
   height: 100%;
   width: 100%;
   position: relative;
@@ -6,20 +6,20 @@
   padding: 10px;
   box-sizing: border-box;
   border-radius: 5px;
-
 }
-img{
+img {
   /* width: 100px;
   height: 100px; */
   border-radius: 50%;
 }
-video{
+video {
   /* height: 40px; */
   width: 100%;
 }
-.weather-forecast {
+.weather-box {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .day-forecast {
