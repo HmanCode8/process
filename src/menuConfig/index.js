@@ -78,6 +78,12 @@ const menuList = [
     key: '7',
     icon: <UserOutlined />,
   },
+  {
+    label: 'MusicApi',
+    component: <MusicApi />,
+    key: '8',
+    icon: <UserOutlined />,
+  },
 ]
 
 export default menuList

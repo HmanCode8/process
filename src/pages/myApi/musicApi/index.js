@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Col, Row, Input, Card,Spin  } from 'antd'
 import './index.css'
+import Mp3Player from '../../../components/Mp3Player';
 
 const { Meta } = Card
 const { Search } = Input;
@@ -24,6 +25,7 @@ const MusicApi = (props) => {
       setMusicData(res.data.info)
     })
   },[value])
+  const mp3Url = 'https://m801.music.126.net/20230801100642/4f95d14979489039c4c9f66de4d81689/jdymusic/obj/wo3DlMOGwrbDjj7DisKw/27666410057/3339/ee51/444b/353c15c18be0e0ec6f15eca36c1097e0.mp3';
 
   const video = <video src={MusicData.mp3url} width="" height="" controls></video>
   return (
@@ -38,7 +40,7 @@ const MusicApi = (props) => {
             <Meta title={MusicData.name} description={MusicData.auther} />
           </Card>
         </Col>
-        <Col span={8}>col-8</Col>
+        <Col span={8}><Mp3Player mp3Url={mp3Url} /></Col>
         <Col span={8}>col-8</Col>
       </Row>
     </div>
