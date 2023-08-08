@@ -7,6 +7,7 @@ import FieldIllustration from '../pages/FieldIllustration/FieldIllustration'
 import ThreeScene from '../pages/ThreeScene/ThreeScene'
 import QqApi from '../pages/myApi/qqApi'
 import MusicApi from '../pages/myApi/musicApi'
+import WeatherApi from '../pages/myApi/weatherApi'
 
 
 
@@ -82,6 +83,12 @@ const menuList = [
     label: 'MusicApi',
     component: <MusicApi />,
     key: '8',
+    icon: <UserOutlined />,
+  },
+  {
+    label: 'WeatherApi',
+    component: <WeatherApi />,
+    key: '9',
     icon: <UserOutlined />,
   },
 ]
