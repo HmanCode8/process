@@ -23,11 +23,16 @@ video {
 }
 
 .day-forecast {
-  border: 1px solid #ddd;
+  /* border: 1px solid #ddd; */
   padding: 10px;
-  margin: 10px;
-  width: 150px;
   text-align: center;
+  /* 左上角到右下角45deg渐变背景 */
+  color: #f5f5f5;
+
+  background: linear-gradient(135deg, #578e6d,#0a6165);
+}
+.day-active{
+  background: linear-gradient(135deg, #f5f5f5,#f00);
 }
 
 .weather {

@@ -13,6 +13,7 @@ const QqApi = (props) => {
   const [qqData, setQqdata] = useState({})
   const [MusicData, setMusicData] = useState({})
   const [weatherData, setWeatherData] = useState({})
+  const [oneweatherData, setOneWeatherData] = useState({})
   const [textData, setRextData] = useState({})
   const [value, setValue] = useState('1530829770')
 
@@ -38,12 +39,23 @@ const QqApi = (props) => {
       }, 10)
     }
   }
-  const getWeatherData = (val) => {
+  const getWeatherData = (val) => { 
     try {
       axios.get('https://api.vvhan.com/api/weather?city=广州&type=week').then((res) => {
-        console.log('广州', res.data)
-        setWeatherData(res.data)
+        const dataList  = res.data
+        setWeatherData(dataList)
+
+        axios.get('https://api.vvhan.com/api/weather?city=广州').then((res) => {
+          console.log('广州', res.data.info)
+          const info = res.data.info
+          const data = _.map(dataList, (w) => {
+            return info
+          })
+          console.log('广州data', data)
+          setOneWeatherData(res.data.info)
+        })
       })
+    
     } catch (error) {
       console.log('error', error)
     }
@@ -51,7 +63,6 @@ const QqApi = (props) => {
 
   const getTextData = () => {
     axios.get('https://api.vvhan.com/api/en?type=sj').then((res) => {
-      console.log('getTextData', res.data.data)
       setRextData(res.data.data)
     })
   }
@@ -136,6 +147,14 @@ const QqApi = (props) => {
           </Card>
         </Col>
       </Row>
+
+      {/* <Row>
+      <Col span={24} style={coloStyle}>
+          <Card hoverable style={{ width: 240 }} cover={<img style={{ height: '200px' }} alt='example' src={MusicData.picUrl} />}>
+            <Meta title={MusicData.name} description={MusicData.auther} />
+          </Card>
+        </Col>
+      </Row> */}
       {/* 天气 */}
 
       <Row>
@@ -143,23 +162,25 @@ const QqApi = (props) => {
           {weatherData.city}
           <div className='weather-box'>
             {_.map(sortedData, (day, index) => (
-              <Card
-                hoverable
-                style={{ width: 240 }}
-                cover={
-                  <div key={index} className='day-forecast'>
-                    <div className='day'>{day.week}</div>
-                    <div className='weather'>
-                      <div>{day.type}</div>
-                      <div>{`高温: ${day.high}，低温: ${day.low}`}</div>
-                      <div>{`白天: ${day.fengxiang}${day.fengli}`}</div>
-                      <div>{`夜晚: ${day.night.fengxiang}${day.night.fengli}`}</div>
+              <div className='w-item' style={{ margin: '5px' }}>
+                <Card
+                  hoverable
+                  style={{ width: 240 }}
+                  cover={
+                    <div key={index} className={`day-forecast ${day.week === oneweatherData.week ? 'day-active' : ''}`}>
+                      <div className='day'>{day.week}</div>
+                      <div className='weather'>
+                        <div>{day.type}</div>
+                        <div>{`高温: ${day.high}，低温: ${day.low}`}</div>
+                        <div>{`白天: ${day.fengxiang}${day.fengli}`}</div>
+                        <div>{`夜晚: ${day.night.fengxiang}${day.night.fengli}`}</div>
+                      </div>
                     </div>
-                  </div>
-                }
-              >
-                <Meta title={weatherData.city} description={weatherData.city} />
-              </Card>
+                  }
+                >
+                  <Meta title={weatherData.city} />
+                </Card>
+              </div>
             ))}
           </div>
         </Col>

@@ -16,9 +16,10 @@ const MusicApi = () => {
     })
   }
   const getTextData = () => {
-    axios.get('https://api.vvhan.com/api/en?type=sj').then((res) => {
-      console.log('getTextData', res.data.data)
-      setRextData(res.data.data)
+    const dom = <div style={{color:'#f00'}}>你好</div>
+    axios.get(`https://api.vvhan.com/api/qr?text=${dom}`).then((res) => {
+      console.log('getTextData', res.data)
+      setRextData(res.data)
     })
   }
   useEffect(() => {
@@ -39,6 +40,7 @@ const MusicApi = () => {
           </Card>
         </Col>
         <Col span={8}>
+          <img src={`https://api.vvhan.com/api/qr?text=你好`} alt='img'/>
           <h2>{MusicData.fanyi}</h2>
         </Col>
       </Row>

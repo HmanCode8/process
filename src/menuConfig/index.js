@@ -21,27 +21,27 @@ const menuList = [
     component: <QqApi />,
     key: '1',
     icon: <AndroidOutlined />,
-    children: [
-      {
-        key: '1-1',
-        label: 'MusicApi',
-        component: <MusicApi />,
-        // children: [
-        //   {
-        //     key: '1-1-1',
-        //     label: '孙子1',
-        //     component: <Carousel />,
-        //   },
-        //   {
-        //     key: '1-1-2',
-        //     label: '孙子2',
-        //     component: <div>
-        //       我是登录的孙子
-        //     </div>,
-        //   },
-        // ]
-      },
-    ],
+    // children: [
+    //   {
+    //     key: '1-1',
+    //     label: 'MusicApi',
+    //     component: <MusicApi />,
+    //     // children: [
+    //     //   {
+    //     //     key: '1-1-1',
+    //     //     label: '孙子1',
+    //     //     component: <Carousel />,
+    //     //   },
+    //     //   {
+    //     //     key: '1-1-2',
+    //     //     label: '孙子2',
+    //     //     component: <div>
+    //     //       我是登录的孙子
+    //     //     </div>,
+    //     //   },
+    //     // ]
+    //   },
+    // ],
   },
   {
     label: '轮播图',
