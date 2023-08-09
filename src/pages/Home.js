@@ -84,7 +84,7 @@ const Home = () => {
         <Header style={{ padding: 0, background: `linear-gradient(${45}deg,#5470c6,#0f0,20%,#eee,#e3e3,50%,#cde5f9,#00967d)`, fontSize: '30px', fontWeight: '600' }}>
           <span className='logo-title'> {title}</span>
         </Header>
-        <div>{content}</div>
+        {content}
         <Footer style={{ textAlign: 'center' }}>Ant Design ©2023 Created by Ant UED</Footer>
       </Layout>
     </Layout>

@@ -13,6 +13,7 @@ const QqApi = (props) => {
   const [qqData, setQqdata] = useState({})
   const [MusicData, setMusicData] = useState({})
   const [weatherData, setWeatherData] = useState({})
+  const [textData, setRextData] = useState({})
   const [value, setValue] = useState('1530829770')
 
   const getQQData = (val) => {
@@ -47,6 +48,16 @@ const QqApi = (props) => {
       console.log('error', error)
     }
   }
+
+  const getTextData = () => {
+    axios.get('https://api.vvhan.com/api/en?type=sj').then((res) => {
+      console.log('getTextData', res.data.data)
+      setRextData(res.data.data)
+    })
+  }
+  useEffect(() => {
+    getTextData()
+  }, [])
   useEffect(() => {
     const handleKeyPress = (event) => {
       if (event.key === 'ArrowRight') {
@@ -87,8 +98,12 @@ const QqApi = (props) => {
     getMusicData()
   }
   const onSearch = (value) => setValue(value)
-  const videocom = <video id='video' src={MusicData.mp3url} width='' height='' controls></video>
-
+  const videocom = (
+    <div>
+      <video id='video' src={MusicData.mp3url} width='' height='' controls></video>
+      {/* <Button o  nClick={nextMe}>yes no or to next one </Button> */}
+    </div>
+  )
   // 自定义比较函数，用于按星期一到星期日的顺序排序
   const compareDays = (day1, day2) => {
     const daysOrder = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']
@@ -110,15 +125,15 @@ const QqApi = (props) => {
         </Col>
         {/* 网易随机音乐 */}
         <Col span={8} style={coloStyle}>
-          <Col span={8} style={coloStyle}>
-            <Card hoverable style={{ width: 240 }} cover={<img style={{ height: '200px' }} alt='example' src={MusicData.picUrl} />}>
-              {videocom}
-              <Meta title={MusicData.name} description={MusicData.auther} />
-            </Card>
-          </Col>
+          <Card hoverable style={{ width: 240 }} cover={<img style={{ height: '200px' }} alt='example' src={MusicData.picUrl} />}>
+            {videocom}
+            <Meta title={MusicData.name} description={MusicData.auther} />
+          </Card>
         </Col>
         <Col span={8} style={coloStyle}>
-          为你留的位置<Button onClick={nextMe}>yes no or to next one </Button>
+          <Card hoverable style={{ width: 240 }} cover={<img alt='example' src={textData.pic} />}>
+            <Meta title={textData.en} description={textData.zh} />
+          </Card>
         </Col>
       </Row>
       {/* 天气 */}
@@ -127,7 +142,7 @@ const QqApi = (props) => {
         <Col span={24} style={coloStyle}>
           {weatherData.city}
           <div className='weather-box'>
-          {_.map(sortedData, (day, index) => (
+            {_.map(sortedData, (day, index) => (
               <Card
                 hoverable
                 style={{ width: 240 }}
