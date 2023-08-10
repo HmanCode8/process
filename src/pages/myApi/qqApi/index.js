@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Col, Row, Input, Card, Spin, Button } from 'antd'
+import { Col, Row, Input, Card, Spin, Select, Radio, Space } from 'antd'
 import './index.css'
 import _ from 'lodash'
+import { city } from '../../../menuConfig/citys'
 
 const coloStyle = { display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }
 
@@ -16,6 +17,9 @@ const QqApi = (props) => {
   const [oneweatherData, setOneWeatherData] = useState({})
   const [textData, setRextData] = useState({})
   const [value, setValue] = useState('1530829770')
+  const [cityVal, setCityVal] = useState('广州市')
+  const [musicVal, setMusicVal] = useState('热歌榜')
+  const [cityChildList, setCityChildList] = useState([])
 
   const getQQData = (val) => {
     axios.get(`https://api.vvhan.com/api/qq?qq=${val}`).then((res) => {
@@ -25,7 +29,7 @@ const QqApi = (props) => {
 
   const getMusicData = (val) => {
     try {
-      axios.get('https://api.vvhan.com/api/rand.music?type=json&sort=热歌榜').then((res) => {
+      axios.get(`https://api.vvhan.com/api/rand.music?type=json&sort=${musicVal}`).then((res) => {
         setMusicData(res.data.info)
         //获取video元素，然后绑定他的播放方法
         const video = document.getElementById('video')
@@ -39,23 +43,16 @@ const QqApi = (props) => {
       }, 10)
     }
   }
-  const getWeatherData = (val) => { 
+  const getWeatherData = (val) => {
     try {
-      axios.get('https://api.vvhan.com/api/weather?city=广州&type=week').then((res) => {
-        const dataList  = res.data
+      axios.get(`https://api.vvhan.com/api/weather?city=${cityVal}&type=week`).then((res) => {
+        const dataList = res.data
         setWeatherData(dataList)
 
-        axios.get('https://api.vvhan.com/api/weather?city=广州').then((res) => {
-          console.log('广州', res.data.info)
-          const info = res.data.info
-          const data = _.map(dataList, (w) => {
-            return info
-          })
-          console.log('广州data', data)
+        axios.get(`https://api.vvhan.com/api/weather?city=${cityVal}`).then((res) => {
           setOneWeatherData(res.data.info)
         })
       })
-    
     } catch (error) {
       console.log('error', error)
     }
@@ -68,6 +65,7 @@ const QqApi = (props) => {
   }
   useEffect(() => {
     getTextData()
+    console.log('city', city)
   }, [])
   useEffect(() => {
     const handleKeyPress = (event) => {
@@ -102,19 +100,16 @@ const QqApi = (props) => {
 
   useEffect(() => {
     getMusicData()
+  }, [musicVal])
+  useEffect(() => {
     getWeatherData()
-  }, [])
+  }, [cityVal])
 
   const nextMe = () => {
     getMusicData()
   }
   const onSearch = (value) => setValue(value)
-  const videocom = (
-    <div>
-      <video id='video' src={MusicData.mp3url} width='' height='' controls></video>
-      {/* <Button o  nClick={nextMe}>yes no or to next one </Button> */}
-    </div>
-  )
+
   // 自定义比较函数，用于按星期一到星期日的顺序排序
   const compareDays = (day1, day2) => {
     const daysOrder = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']
@@ -123,6 +118,22 @@ const QqApi = (props) => {
 
   // 按顺序排序数据
   const sortedData = _.slice(weatherData.data).sort(compareDays)
+  // 省区数据重新
+  const nextCitys = _.map(city, (c) => ({ value: c.province, label: c.province }))
+
+  const selectOnChange = (value) => {
+    const cityData = _.map(_.find(city, (c) => c.province === value).citys, (p) => ({ value: p.city, label: p.city }))
+    setCityChildList(cityData)
+  }
+  const selectChildOnChange = (value) => {
+    setCityVal(value)
+  }
+  const videocom = (
+    <div>
+      <video id='video' src={MusicData.mp3url} width='' height='' controls></video>
+      {/* <Button o  nClick={nextMe}>yes no or to next one </Button> */}
+    </div>
+  )
   return (
     <div className='qq-box'>
       <Row>
@@ -135,7 +146,21 @@ const QqApi = (props) => {
           </Card>
         </Col>
         {/* 网易随机音乐 */}
-        <Col span={8} style={coloStyle}>
+        <Col span={8} style={{ ...coloStyle, flexDirection: 'row' }}>
+          <Radio.Group
+            onChange={(e) => setMusicVal(e.target.value)}
+            value={musicVal}
+          >
+            <Space direction='vertical'>
+              <Radio value={'热歌榜'}>热歌榜</Radio>
+              <Radio value={'新歌榜'}>新歌榜</Radio>
+              <Radio value={'飙升榜'}>飙升榜</Radio>
+              <Radio value={'原创'}>原创</Radio>
+              {/* <Radio value={'飙升榜'}>
+          {value === 4 ? <Input style={{ width: 100, marginLeft: 10 }} /> : null}
+        </Radio> */}
+            </Space>
+          </Radio.Group>
           <Card hoverable style={{ width: 240 }} cover={<img style={{ height: '200px' }} alt='example' src={MusicData.picUrl} />}>
             {videocom}
             <Meta title={MusicData.name} description={MusicData.auther} />
@@ -148,40 +173,61 @@ const QqApi = (props) => {
         </Col>
       </Row>
 
-      {/* <Row>
-      <Col span={24} style={coloStyle}>
-          <Card hoverable style={{ width: 240 }} cover={<img style={{ height: '200px' }} alt='example' src={MusicData.picUrl} />}>
-            <Meta title={MusicData.name} description={MusicData.auther} />
-          </Card>
+      <Row>
+        <Col span={24} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          选择省份：
+          <Select
+            style={{ width: '300px', float: 'right', flexDirection: 'row' }}
+            showSearch
+            placeholder='选择省份'
+            optionFilterProp='children'
+            onChange={selectOnChange}
+            onSearch={onSearch}
+            filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
+            options={nextCitys}
+          />
+          &nbsp;&nbsp;选择城市：
+          <Select
+            style={{ width: '300px', float: 'right', flexDirection: 'row' }}
+            showSearch
+            placeholder='选择城市'
+            optionFilterProp='children'
+            onChange={selectChildOnChange}
+            onSearch={onSearch}
+            filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
+            options={cityChildList}
+          />
         </Col>
-      </Row> */}
+      </Row>
       {/* 天气 */}
 
       <Row>
         <Col span={24} style={coloStyle}>
-          {weatherData.city}
+          {/* {weatherData.city} */}
           <div className='weather-box'>
-            {_.map(sortedData, (day, index) => (
-              <div className='w-item' style={{ margin: '5px' }}>
-                <Card
-                  hoverable
-                  style={{ width: 240 }}
-                  cover={
-                    <div key={index} className={`day-forecast ${day.week === oneweatherData.week ? 'day-active' : ''}`}>
-                      <div className='day'>{day.week}</div>
-                      <div className='weather'>
-                        <div>{day.type}</div>
-                        <div>{`高温: ${day.high}，低温: ${day.low}`}</div>
-                        <div>{`白天: ${day.fengxiang}${day.fengli}`}</div>
-                        <div>{`夜晚: ${day.night.fengxiang}${day.night.fengli}`}</div>
-                      </div>
-                    </div>
-                  }
-                >
-                  <Meta title={weatherData.city} />
-                </Card>
-              </div>
-            ))}
+            {_.size(sortedData) > 0 && oneweatherData
+              ? _.map(sortedData, (day, index) => (
+                  <div className='w-item' style={{ margin: '5px' }}>
+                    <Card
+                      hoverable
+                      style={{ width: 240 }}
+                      cover={
+                        <div key={index} className={`day-forecast ${day.week === oneweatherData.week ? 'day-active' : ''}`}>
+                          <div className='day'>{day.week}</div>
+                          <div className='weather'>
+                            <div>{day.type}</div>
+                            <div>{`高温: ${day.high}，低温: ${day.low}`}</div>
+                            <div>{`白天: ${day.fengxiang}${day.fengli}`}</div>
+                            <div>{`夜晚: ${day.night.fengxiang}${day.night.fengli}`}</div>
+                          </div>
+                        </div>
+                      }
+                    >
+                      <Meta title={weatherData.city} />
+                    </Card>
+                  </div>
+                ))
+              : null}
           </div>
         </Col>
       </Row>

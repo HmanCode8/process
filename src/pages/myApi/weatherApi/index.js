@@ -13,10 +13,10 @@ const WeatherApi = (props) => {
 
   const getWeatherData = (val) => {
     try {
-      axios.get('https://api.vvhan.com/api/weather?city=广州&type=week').then((res) => {
+      axios.get('https://api.vvhan.com/api/weather?city=敦煌&type=week').then((res) => {
         setWeatherData(res.data)
       })
-      axios.get('https://api.vvhan.com/api/weather?city=广州').then((res) => {
+      axios.get('https://api.vvhan.com/api/weather?city=敦煌').then((res) => {
         console.log('广州', res.data)
         setOneData(res.data)
       })

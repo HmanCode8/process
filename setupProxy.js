@@ -7,10 +7,10 @@ module.exports = function (app) {
       changeOrigin: true,
     })
   )
-  app.use(
-    proxy('/api/qq', { 
-      target: 'https://api.vvhan.com',
-      changeOrigin: true,
-    })
-  );
+  // app.use(
+  //   proxy('/api/qq', { 
+  //     target: 'https://api.vvhan.com',
+  //     changeOrigin: true,
+  //   })
+  // );
 }

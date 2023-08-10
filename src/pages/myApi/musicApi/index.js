@@ -1,48 +1,47 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Col, Row, Input, Card } from 'antd'
+import { SwapOutlined } from '@ant-design/icons'
 import './index.css'
+const { TextArea } = Input
 
-const { Meta } = Card
-const { Search } = Input
 const MusicApi = () => {
   //qq数据的状态存储
-  const [MusicData, setMusicData] = useState('')
-  const [textData, setRextData] = useState({})
-  const [value, setValue] = useState('hello')
+  const [oneValue, setOneValue] = useState('hello')
+  const [twoValue, setTwoValue] = useState({})
   const getData = (val) => {
     axios.get(`https://api.vvhan.com/api/fy?text=${val}`).then((res) => {
-      setMusicData(res.data.data)
+      console.log('res',res.data.data)
+      setTwoValue(res.data)
     })
   }
-  const getTextData = () => {
-    const dom = <div style={{color:'#f00'}}>你好</div>
-    axios.get(`https://api.vvhan.com/api/qr?text=${dom}`).then((res) => {
-      console.log('getTextData', res.data)
-      setRextData(res.data)
-    })
-  }
-  useEffect(() => {
-    getTextData()
-  }, [])
-  useEffect(() => {
-    getData(value)
-  }, [value])
-  const onSearch = (value) => setValue(value)
 
+
+  const  oneValueChange = (e)=>setOneValue(e.target.value)
+
+
+  useEffect(() => {
+    getData(oneValue)
+  }, [oneValue])
+  console.log('twoValue',twoValue)
+  const fanyi = twoValue.data&&twoValue.data.fanyi
   return (
-    <div className='qq-box'>
-      <Row>
-        <Col span={8} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-          <Search style={{ width: 304, margin: '10px 0' }} placeholder='inter you qq number' onSearch={onSearch} enterButton />
-          <Card hoverable style={{ width: 240 }} cover={<img alt='example' src={textData.pic} />}>
-            <Meta title={textData.en} description={textData.zh} />
-          </Card>
+    <div className='transp-box'>
+      <Row style={{width:'100%',margin:'10px'}}>
+        <Col span={10}>
+          <TextArea rows={4} value={oneValue} onChange={oneValueChange}/>
         </Col>
-        <Col span={8}>
+        <Col span={2}>
+          {twoValue.type}
+          <SwapOutlined style={{ display: 'flex', justifyContent: 'center',fontSize:'30px' ,alignItems:'center',height: '100%'}} />
+        </Col>
+        <Col span={10}>
+          <TextArea rows={4} value={fanyi}/>
+        </Col>
+        {/* <Col span={8}>
           <img src={`https://api.vvhan.com/api/qr?text=你好`} alt='img'/>
           <h2>{MusicData.fanyi}</h2>
-        </Col>
+        </Col> */}
       </Row>
     </div>
   )

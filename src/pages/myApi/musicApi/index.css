@@ -1,0 +1,8 @@
+.transp-box{
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* 背景渐变 */
+  /* background: linear-gradient(to right, #000000, #000000, #0000) */
+}
