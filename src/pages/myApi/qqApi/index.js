@@ -1,14 +1,24 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Col, Row, Input, Card, Spin, Select, Radio, Space } from 'antd'
+import { Col, Row, Input, Card, Spin, Select, Radio, Space,Alert, Calendar } from 'antd'
+import dayjs from 'dayjs';
 import './index.css'
 import _ from 'lodash'
 import { city } from '../../../menuConfig/citys'
+import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons'
 
 const coloStyle = { display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }
+const rootUrl = 'https://api.vvhan.com'
 
 const { Meta } = Card
 const { Search } = Input
+
+// 自定义比较函数，用于按星期一到星期日的顺序排序
+const compareDays = (day1, day2) => {
+  const daysOrder = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']
+  return daysOrder.indexOf(day1.week) - daysOrder.indexOf(day2.week)
+}
+
 const QqApi = (props) => {
   //qq数据的状态存储
   const [qqData, setQqdata] = useState({})
@@ -21,15 +31,26 @@ const QqApi = (props) => {
   const [musicVal, setMusicVal] = useState('热歌榜')
   const [cityChildList, setCityChildList] = useState([])
 
+  const [timeValue, setTimeValue] = useState(() => dayjs(Date.now()));
+  const [selectedValue, setSelectedValue] = useState(() => dayjs('2017-01-25'));
+
+  /**
+   * qq信息api
+   * @param {*} val
+   */
   const getQQData = (val) => {
-    axios.get(`https://api.vvhan.com/api/qq?qq=${val}`).then((res) => {
+    axios.get(`${rootUrl}/api/qq?qq=${val}`).then((res) => {
       setQqdata(res.data)
     })
   }
 
+  /**
+   * 网易云音乐api
+   * @param {*} val
+   */
   const getMusicData = (val) => {
     try {
-      axios.get(`https://api.vvhan.com/api/rand.music?type=json&sort=${musicVal}`).then((res) => {
+      axios.get(`${rootUrl}/api/rand.music?type=json&sort=${val}`).then((res) => {
         setMusicData(res.data.info)
         //获取video元素，然后绑定他的播放方法
         const video = document.getElementById('video')
@@ -39,17 +60,21 @@ const QqApi = (props) => {
       })
     } catch (error) {
       setTimeout(() => {
-        getMusicData()
+        getMusicData(musicVal)
       }, 10)
     }
   }
+  /**
+   * 获取天气数据
+   * @param {*} val
+   */
   const getWeatherData = (val) => {
     try {
-      axios.get(`https://api.vvhan.com/api/weather?city=${cityVal}&type=week`).then((res) => {
+      axios.get(`${rootUrl}/api/weather?city=${cityVal}&type=week`).then((res) => {
         const dataList = res.data
         setWeatherData(dataList)
 
-        axios.get(`https://api.vvhan.com/api/weather?city=${cityVal}`).then((res) => {
+        axios.get(`${rootUrl}/api/weather?city=${cityVal}`).then((res) => {
           setOneWeatherData(res.data.info)
         })
       })
@@ -57,27 +82,34 @@ const QqApi = (props) => {
       console.log('error', error)
     }
   }
-
+  /**
+   * 获取格言数据
+   */
   const getTextData = () => {
-    axios.get('https://api.vvhan.com/api/en?type=sj').then((res) => {
+    axios.get(`${rootUrl}/api/en?type=sj`).then((res) => {
       setRextData(res.data.data)
     })
   }
+
   useEffect(() => {
     getTextData()
-    console.log('city', city)
   }, [])
+
   useEffect(() => {
     const handleKeyPress = (event) => {
       if (event.key === 'ArrowRight') {
         // 按下右箭头键
-        getMusicData()
+        getMusicData(musicVal)
       }
     }
 
     // 在组件挂载时添加键盘事件监听
     document.addEventListener('keydown', handleKeyPress)
 
+    const video = document.getElementById('video')
+    video.addEventListener('ended', function () {
+      getMusicData(musicVal)
+    })
     // 在组件卸载时移除事件监听
     return () => {
       document.removeEventListener('keydown', handleKeyPress)
@@ -85,36 +117,17 @@ const QqApi = (props) => {
   })
 
   useEffect(() => {
-    const video = document.getElementById('video')
-    video.addEventListener('ended', function () {
-      // 在视频播放结束时执行的操作
-      // console.log('视频播放结束了！')
-      getMusicData()
-      // 或者执行其他的操作，比如自动切换到下一个视频等
-    })
-  })
-
-  useEffect(() => {
     getQQData(value)
   }, [value])
 
   useEffect(() => {
-    getMusicData()
+    getMusicData(musicVal)
   }, [musicVal])
   useEffect(() => {
-    getWeatherData()
+    getWeatherData(cityVal)
   }, [cityVal])
 
-  const nextMe = () => {
-    getMusicData()
-  }
   const onSearch = (value) => setValue(value)
-
-  // 自定义比较函数，用于按星期一到星期日的顺序排序
-  const compareDays = (day1, day2) => {
-    const daysOrder = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']
-    return daysOrder.indexOf(day1.week) - daysOrder.indexOf(day2.week)
-  }
 
   // 按顺序排序数据
   const sortedData = _.slice(weatherData.data).sort(compareDays)
@@ -134,23 +147,40 @@ const QqApi = (props) => {
       {/* <Button o  nClick={nextMe}>yes no or to next one </Button> */}
     </div>
   )
+
+  const qqMessageJum = ()=>{
+    axios.get(`https://api.vvhan.com/api/qqCard?qq=${value}`).then((res) => {
+      console.log('qqCard',res)
+    })
+  }
+
+  const onTimeSelect = (newValue) => {
+    setTimeValue(newValue);
+    setSelectedValue(newValue);
+  };
+
+  const onTimePanelChange = (newValue) => {
+    setTimeValue(newValue);
+  };
+
   return (
     <div className='qq-box'>
       <Row>
         {/* qq信息 */}
         <Col span={8} style={coloStyle}>
           <Search style={{ width: 304, margin: '10px 0' }} placeholder='inter you qq number' onSearch={onSearch} enterButton />
-          <Card hoverable style={{ width: 240 }} cover={<img alt='example' src={qqData.imgurl || <Spin />} />}>
+          <Card
+            hoverable
+            style={{ width: 240 }}
+            cover={<img alt='example' src={qqData.imgurl || <Spin />} />}
+            actions={[<a href={qqData.qzone}>qq空间</a>, <EditOutlined key='edit' onClick={qqMessageJum} />, <EllipsisOutlined key='ellipsis' />]}
+          >
             <Meta title={qqData.name} description={qqData.qemail} />
-            <a href={qqData.qzone}>qq空间</a>
           </Card>
         </Col>
         {/* 网易随机音乐 */}
         <Col span={8} style={{ ...coloStyle, flexDirection: 'row' }}>
-          <Radio.Group
-            onChange={(e) => setMusicVal(e.target.value)}
-            value={musicVal}
-          >
+          <Radio.Group onChange={(e) => setMusicVal(e.target.value)} value={musicVal}>
             <Space direction='vertical'>
               <Radio value={'热歌榜'}>热歌榜</Radio>
               <Radio value={'新歌榜'}>新歌榜</Radio>
@@ -201,6 +231,8 @@ const QqApi = (props) => {
       </Row>
       {/* 天气 */}
 
+    
+
       <Row>
         <Col span={24} style={coloStyle}>
           {/* {weatherData.city} */}
@@ -229,6 +261,13 @@ const QqApi = (props) => {
                 ))
               : null}
           </div>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col span={24} style={coloStyle}>
+        <Alert message={`你的时间是: ${selectedValue?.format('YYYY-MM-DD')}`} />
+      <Calendar value={timeValue} onSelect={onTimeSelect} onPanelChange={onTimePanelChange} />
         </Col>
       </Row>
     </div>

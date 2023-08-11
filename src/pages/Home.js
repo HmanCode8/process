@@ -5,7 +5,7 @@ import '../css/index.css'
 import fire from '../images/fire.mp4'
 import axios from 'axios'
 
-import { Layout, Menu } from 'antd'
+import { Layout, Menu ,Watermark} from 'antd'
 import menuList from '../menuConfig'
 import logo from '../images/logo.png'
 
@@ -84,7 +84,14 @@ const Home = () => {
         <Header style={{ padding: 0, background: `linear-gradient(${45}deg,#5470c6,#0f0,20%,#eee,#e3e3,50%,#cde5f9,#00967d)`, fontSize: '30px', fontWeight: '600' }}>
           <span className='logo-title'> {title}</span>
         </Header>
+        <Watermark content='何世恒' 
+          height={30}
+          width={130}
+          // image="https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*lkAoRbywo0oAAAAAAAAAAAAADrJ8AQ/original"
+        >
         {content}
+
+        </Watermark>
         <Footer style={{ textAlign: 'center' }}>Ant Design ©2023 Created by Ant UED</Footer>
       </Layout>
     </Layout>
